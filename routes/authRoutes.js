@@ -5,6 +5,7 @@ const User = require('../models/userModel');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const Roles = require('../constants/constant');
 
 function generateToken(user) {
     const token = jwt.sign(
@@ -19,8 +20,11 @@ router.post('/signup', async (req, res) => {
     try {
         const role = await Role.findOne({ name: req.body.role });
         if (!role) {
-            res.status(500).json({ err: 'Role does not exist! Please check the spelling and search is case sensitive.' });
-            return;
+            return res.status(500).json({ err: 'Role does not exist! Please check the spelling and search is case sensitive.' });
+            
+        }
+        if(role.name == Roles.PATIENT){
+            return res.status(500).json({ err: 'Patient Cannot directly signup!' });
         }
         const user = new User({ ...req.body, role: role._id });
         try {
@@ -42,13 +46,14 @@ router.post('/signup', async (req, res) => {
 
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
-
     try {
         const user = await User.findOne({ email }).populate('role');
         if (!user) {
             return res.status(404).json({ err: 'User not found' });
         }
-        console.log(user);
+        if(user.isDeleted){
+            return res.status(500).json({err: "Your account has been deleted. Contact your administrator."});
+        }
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             return res.status(400).json({ err: 'Incorrect password' });

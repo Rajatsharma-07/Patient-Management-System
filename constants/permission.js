@@ -1,17 +1,17 @@
-const Permission = {
+const Permission = Object.freeze({
     ALL: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
     READ: ['GET'],
     CREATE: ['POST'],
     UPDATE: ['PUT', 'PATCH'],
     DELETE: ['DELETE']
-}
+});
 
-const Routes = {
+const Routes = Object.freeze({
     PATIENT: 'patient',
     APPOINTMENT: 'appointment'
-}
+});
 
-const AllowedPermission = {
+const AllowedPermission = Object.freeze({
     'Admin': [
         {
             route: Routes.PATIENT,
@@ -39,9 +39,9 @@ const AllowedPermission = {
         },
         {
             route: Routes.APPOINTMENT,
-            access: [Permission.CREATE]
+            access: [Permission.ALL]
         },
     ]
-}
+});
 
 module.exports = {Routes, Permission, AllowedPermission}

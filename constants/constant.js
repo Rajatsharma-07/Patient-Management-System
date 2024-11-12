@@ -1,5 +1,7 @@
-export const Roles = Object.freeze({
+const Roles = Object.freeze({
     ADMIN: 'Admin',
     DOCTOR: 'Doctor',
-    Patient: 'Patient',
+    PATIENT: 'Patient',
 });
+
+module.exports = Roles;

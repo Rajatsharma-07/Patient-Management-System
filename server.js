@@ -3,6 +3,7 @@ const app = express();
 require('dotenv').config();
 const authRoutes = require('./routes/authRoutes');
 const appointmentRoutes = require('./routes/appointmentRoutes');
+const patientRoutes = require('./routes/patientRoutes');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const authenticateToken = require('./middlewares/authenticateUser');
@@ -22,8 +23,11 @@ mongoose.connect(process.env.MONGO_URI)
 //auth routes
 app.use('/auth', authRoutes);
 
-//main routes
+//appointment routes
 app.use('/appointment', authenticateToken, authorizeUser, appointmentRoutes);
+
+//patient routes
+app.use('/patient', authenticateToken, authorizeUser, patientRoutes);
 
 const PORT = process.env.PORT || 3000;
 
