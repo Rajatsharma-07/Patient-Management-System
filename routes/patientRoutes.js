@@ -13,7 +13,6 @@ router.get('/', async(req, res) => {
     }else{
         whereClause = {_id: req.user.userId}
         const info = await User.findOne(whereClause).select('-password');
-        console.log(whereClause, info)
         return res.status(200).json({info});
     }
     try {

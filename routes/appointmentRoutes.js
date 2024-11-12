@@ -5,7 +5,6 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
     try {
-        console.log('user', req.user);
         let whereClause = {};
         if(req.user.role == Roles.ADMIN){
             whereClause = {};
