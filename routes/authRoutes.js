@@ -9,7 +9,7 @@ const Roles = require('../constants/constant');
 
 function generateToken(user) {
     const token = jwt.sign(
-        { userId: user._id, email: user.email, name: user.name, role_id: user.role_id, role: user.role },
+        { userId: user._id, email: user.email, name: user.name, role_id: user.role_id, role: user.role, parent_id: user.parent_id },
         process.env.JWT_SECRET_KEY,
         { expiresIn: '1h' }
     );
@@ -30,7 +30,7 @@ router.post('/signup', async (req, res) => {
         try {
             await user.save()
                 .then((user) => {
-                    const token = generateToken({ email: user.email, name: user.name, _id: user._id, role_id: role._id, role: role.name });
+                    const token = generateToken({ email: user.email, name: user.name, _id: user._id, role_id: role._id, role: role.name, parent_id: user.parent_id });
                     res.status(200).json({ res: 'User created', token });
                 })
                 .catch(err => { throw err });
@@ -58,7 +58,7 @@ router.post('/login', async (req, res) => {
         if (!isMatch) {
             return res.status(400).json({ err: 'Incorrect password' });
         }
-        const token = generateToken({email: user.email, _id: user._id, name: user.name, role_id: user.role._id, role: user.role.name})
+        const token = generateToken({email: user.email, _id: user._id, name: user.name, role_id: user.role._id, role: user.role.name, parent_id: user.parent_id})
         res.status(200).json({res: 'Authentication Successfull!', token});
     } catch (err) {
         throw err;
