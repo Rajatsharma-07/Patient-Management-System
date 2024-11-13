@@ -8,6 +8,7 @@ const Permission = Object.freeze({
 
 const Routes = Object.freeze({
     PATIENT: 'patient',
+    USERS: 'users',
     APPOINTMENT: 'appointment'
 });
 
@@ -21,6 +22,10 @@ const AllowedPermission = Object.freeze({
             route: Routes.APPOINTMENT,
             access: [Permission.ALL]
         },
+        {
+            route: Routes.USERS,
+            access: [Permission.ALL]
+        }
     ],
     'Doctor': [
         {

@@ -4,6 +4,7 @@ require('dotenv').config();
 const authRoutes = require('./routes/authRoutes');
 const appointmentRoutes = require('./routes/appointmentRoutes');
 const patientRoutes = require('./routes/patientRoutes');
+const userRoutes = require('./routes/userRoutes');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const authenticateToken = require('./middlewares/authenticateUser');
@@ -29,6 +30,9 @@ app.use('/appointment', authenticateToken, authorizeUser, appointmentRoutes);
 
 //patient routes
 app.use('/patient', authenticateToken, authorizeUser, patientRoutes);
+
+//users routes
+app.use('/users', authenticateToken, authorizeUser, userRoutes);
 
 const PORT = process.env.PORT || 3000;
 
