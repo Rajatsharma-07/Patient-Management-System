@@ -4,7 +4,7 @@ const Appointment = require('../models/appointmentModel');
 const User = require('../models/userModel');
 const router = express.Router();
 
-
+//This function validates that the patient belongs to the doctor present in the parent id
 async function isValidPatientDoctorRelation(patient_id, doctor_id) {
     let patientDetails = await User.findOne({ _id: patient_id });
     if (patientDetails.parent_id != doctor_id) {
