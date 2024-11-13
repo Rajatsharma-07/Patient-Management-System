@@ -6,8 +6,9 @@ const router = express.Router();
 
 router.get('/', async(req, res) => {
     let whereClause = {};
+    let patientRole = await Role.findOne({name: Roles.PATIENT}); 
     if(req.user.role == Roles.ADMIN){
-        whereClause = {};
+        whereClause = {role: patientRole._id};
     }else if(req.user.role == Roles.DOCTOR){
         whereClause = {parent_id: req.user.userId}
     }else{
@@ -47,6 +48,13 @@ router.post('/', async (req, res) => {
 
 router.put('/', async (req, res) => {
     try {
+        console.log(req.user)
+        if(req.user.role == Roles.ADMIN){
+            console.log(req.body)
+            await User.updateOne({_id: req.body.patientId}, req.body);
+            return res.status(200).json({res: 'Patient Updated'});
+        }
+
         let isValidPatient = await User.findOne({_id: req.body.patientId, parent_id: req.user.userId});
         if(isValidPatient){
             const update = await User.updateOne({_id: req.body.patientId}, req.body);
@@ -54,6 +62,7 @@ router.put('/', async (req, res) => {
         }
         return res.status(500).json({err: "Not your Patient. You can only update your patient."}); // We can also write Wrong Patient Id here
     } catch (err) {
+        console.log(err)
         return res.status(500).json({err});
     }
 });
