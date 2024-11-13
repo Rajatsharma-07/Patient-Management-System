@@ -18,9 +18,11 @@ const roles = [
     }
 ];
 
+//Insertion of Roles in the database
 Role.insertMany(roles)
     .then((res) => {
         console.log('Roles Created', res);
+        //Creating a Admin user
         const createUser = async () => {
             const newUser = new User({
               name: 'Admin',
