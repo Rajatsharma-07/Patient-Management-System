@@ -36,4 +36,5 @@ JavaScript | NodeJs | MongoDB(as Database)
 # Note
 1. Please create the env file from env.sample or rename the env.sample file to .env.
 2. Create a new database in your mongoDB Compass with name "patient_management_system" and for connection purpose use the localhost:27017 connection in mongoDB Compass.
+3. Postman Collection Link: https://www.postman.com/cleverprogramming/patient-management-system/overview
 
